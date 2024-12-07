@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.models.Product;
 import com.example.repository.ProductRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -58,5 +59,11 @@ public class ProductController {
     public String saveFromEdit(@ModelAttribute("product") Product product){
         this.repository.save(product);
         return "redirect:/products";
+    }
+
+    @DeleteMapping("/{id}/delete")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        this.repository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
