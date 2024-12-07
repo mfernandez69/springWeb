@@ -54,4 +54,9 @@ public class ProductController {
         model.addAttribute("product", product);
         return "product-edit";
     }
+    @PostMapping("/{id}/edit")
+    public String saveFromEdit(@ModelAttribute("product") Product product){
+        this.repository.save(product);
+        return "redirect:/products";
+    }
 }
