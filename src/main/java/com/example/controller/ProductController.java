@@ -4,10 +4,7 @@ import com.example.models.Product;
 import com.example.repository.ProductRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,7 +12,7 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
 
-    private ProductRepository repository;
+    private final ProductRepository repository;
 
     public ProductController(ProductRepository repository) {
         this.repository = repository;
@@ -44,5 +41,17 @@ public class ProductController {
     public String save(@ModelAttribute("product") Product product){
         this.repository.save(product);
         return "redirect:/products";
+    }
+    @GetMapping("/{id}/view")
+    public String verProducto(@PathVariable Long id, Model model) {
+        Product product = this.repository.findById(id).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        model.addAttribute("product", product);
+        return "product-view";
+    }
+    @GetMapping("/{id}/edit")
+    public String editarProducto(@PathVariable Long id, Model model) {
+        Product product = this.repository.findById(id).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        model.addAttribute("product", product);
+        return "product-edit";
     }
 }
