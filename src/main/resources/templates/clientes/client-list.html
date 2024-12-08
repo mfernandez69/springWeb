@@ -11,28 +11,36 @@
             color: #e0e0e0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .container {
             background-color: #2c3034;
             border-radius: 15px;
             padding: 30px;
             box-shadow: 0 0 20px rgba(0,0,0,0.2);
         }
+
         .btnContainer {
             background-color: #2c3034;
             border-radius: 15px;
             padding: 20px;
             display: flex;
-            flex-direction: row;
-            justify-content: space-around; /* Centra los elementos horizontalmente */
+            flex-wrap: wrap; /* Permite que los botones se ajusten en múltiples líneas si es necesario */
+            justify-content: center; /* Centra los elementos horizontalmente */
             align-items: center; /* Centra los elementos verticalmente */
-            gap: 20px; /* Espacio entre los botones */
+            gap: 10px; /* Espacio entre los botones */
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.44);
         }
+
         .table {
             color: #e0e0e0;
             border-collapse: separate;
             border-spacing: 0 10px;
+            width: 100%
         }
+        .table-responsive {
+            overflow-x: auto; /* Permite desplazamiento horizontal si es necesario */
+        }
+
         .table-dark {
             --bs-table-bg: transparent;
             --bs-table-striped-bg: #343a40;
@@ -43,6 +51,7 @@
             --bs-table-hover-color: #e0e0e0;
             border-color: #454d55;
         }
+
         .table-dark th {
             background-color: #198754;
             color: #ffffff;
@@ -50,18 +59,22 @@
             letter-spacing: 1px;
             padding: 15px;
         }
+
         .table-dark td {
             padding: 15px;
             vertical-align: middle;
         }
+
         .table-dark tr {
             background-color: #2c3034;
             transition: all 0.3s ease;
         }
+
         .table-dark tr:hover {
             transform: translateY(-3px);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
+
         .btn {
             border-radius: 20px;
             padding: 8px 20px;
@@ -98,40 +111,26 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(220,53,69,0.3);
         }
+
         .modal-content {
             background-color: #2c3034;
-            color: #e0e0e0;
         }
 
-        .modal-header {
-            border-bottom: 1px solid #454d55;
+        .imgEmpty {
+            width: 100%; /* Cambiado a un ancho del 100% para ser responsivo */
+            max-width: 500px; /* Máximo ancho de la imagen */
+            height: auto; /* Mantiene la proporción */
         }
 
-        .modal-footer {
-            border-top: 1px solid #454d55;
-        }
-
-        .btn-close {
-            filter: invert(1) grayscale(100%) brightness(200%);
-        }
-        .imgEmpty{
-            width: 500px;
-            height: 500px;
-            object-fit: cover;
-        }
-        h2{
+        h2 {
             font-family: 'Roboto', sans-serif;
-            font-weight: 400;
-            color: #21a693;
         }
     </style>
 </head>
 <body>
 <div class="container text-center mt-5">
     <div class="row">
-        <div class="col-2">
-        </div>
-        <div class="col-8">
+        <div class="col-12 col-md-8 mx-auto">
             <!-- Mostrar esto si la lista de clientes está vacía -->
             <div th:if="${#lists.isEmpty(clientes)}">
                 <h2>No hay clientes disponibles</h2>
@@ -139,7 +138,7 @@
             </div>
             <!-- Tabla de clientes -->
             <!-- Mostrar la tabla solo si hay clientes -->
-            <div th:unless="${#lists.isEmpty(clientes)}">
+            <div th:unless="${#lists.isEmpty(clientes)}" class="table-responsive">
                 <table class="table">
                     <h2>Lista de clientes</h2>
                     <thead>
@@ -180,8 +179,6 @@
                     Eliminar todos
                 </button>
             </div>
-        </div>
-        <div class="col-2">
         </div>
     </div>
 </div>
