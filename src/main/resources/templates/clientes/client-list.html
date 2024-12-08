@@ -17,6 +17,17 @@
             padding: 30px;
             box-shadow: 0 0 20px rgba(0,0,0,0.2);
         }
+        .btnContainer {
+            background-color: #2c3034;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around; /* Centra los elementos horizontalmente */
+            align-items: center; /* Centra los elementos verticalmente */
+            gap: 20px; /* Espacio entre los botones */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.44);
+        }
         .table {
             color: #e0e0e0;
             border-collapse: separate;
@@ -116,64 +127,65 @@
     </style>
 </head>
 <body>
-
 <div class="container text-center mt-5">
     <div class="row">
         <div class="col-2">
-
         </div>
         <div class="col-8">
-            <!-- Mostrar esto si la lista de productos está vacía -->
-            <div th:if="${#lists.isEmpty(products)}">
-                <h2>No hay productos disponibles</h2>
-                <img th:src="@{/imgs/EmptyImg.png}" alt="No hay productos" class="imgEmpty"/>
+            <!-- Mostrar esto si la lista de clientes está vacía -->
+            <div th:if="${#lists.isEmpty(clientes)}">
+                <h2>No hay clientes disponibles</h2>
+                <img th:src="@{/imgs/Hiring.png}" alt="No hay clientes" class="imgEmpty"/>
             </div>
-            <!--            Tabla de productos-->
-            <!-- Mostrar la tabla solo si hay productos -->
-            <div th:unless="${#lists.isEmpty(products)}">
-            <table class="table">
-                <h2>Lista de productos</h2>
-                <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- Generamos tantas filas en la tabla como productos en la lista que pasemos -->
-                <tr th:each="product: ${products}">
-                    <th scope="row" th:text="${product.id}"></th>
-                    <td th:text="${product.title}"></td>
-                    <td th:text="${product.price + ' €'}"></td>
-                    <td th:text="${product.quantity}"></td>
-                    <td>
-                        <a class="btn btn-primary" th:href="@{/products/{id}/view(id=${product.id})}">Ver</a>
-                        <a class="btn btn-success" th:href="@{/products/{id}/edit(id=${product.id})}">Editar</a>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" th:data-id="${product.id}">
-                            Borrar
-                        </button>
-                    </td>
-                </tr>
+            <!-- Tabla de clientes -->
+            <!-- Mostrar la tabla solo si hay clientes -->
+            <div th:unless="${#lists.isEmpty(clientes)}">
+                <table class="table">
+                    <h2>Lista de clientes</h2>
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">DNI</th>
+                        <th scope="col">Fecha de Nacimiento</th>
+                        <th scope="col">Sexo</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Generamos tantas filas en la tabla como clientes en la lista que pasemos -->
+                    <tr th:each="cliente: ${clientes}">
+                        <th scope="row" th:text="${cliente.id}"></th>
+                        <td th:text="${cliente.nombre}"></td>
+                        <td th:text="${cliente.dni}"></td>
+                        <td th:text="${#temporals.format(cliente.fechaNacimiento, 'dd-MM-yyyy')}"></td>
+                        <td th:text="${cliente.sexo}"></td>
+                        <td>
+                            <a class="btn btn-primary" th:href="@{/clients/{id}/view(id=${cliente.id})}">Ver</a>
+                            <a class="btn btn-success" th:href="@{/clients/{id}/edit(id=${cliente.id})}">Editar</a>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" th:data-id="${cliente.id}">
+                                Borrar
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                </tbody>
-            </table>
+            <div class="btnContainer">
+                <!-- Botones siempre visibles -->
+                <a class="btn btn-primary" th:href="@{/clients/new}">Añadir cliente</a>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAllModal">
+                    Eliminar todos
+                </button>
             </div>
-            <!-- Botones siempre visibles -->
-            <a class="btn btn-primary" th:href="@{/products/new}">Añadir producto</a>
-            <!---<a class="btn btn-danger" th:href="@{/products/deleteAll}">Eliminar todos</a>-->
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAllModal">
-                Eliminar todos
-            </button>
         </div>
         <div class="col-2">
-
         </div>
     </div>
 </div>
-<!--Ventana modal para eliminar un producto en concreto-->
+
+<!--Ventana modal para eliminar un cliente en concreto-->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -182,7 +194,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ¿Estás seguro de que quieres eliminar este producto?
+                ¿Estás seguro de que quieres eliminar este cliente?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -191,7 +203,8 @@
         </div>
     </div>
 </div>
-<!--Ventana modal para confirmar la elección de eliminar todos los porductos-->
+
+<!--Ventana modal para confirmar la elección de eliminar todos los clientes-->
 <div class="modal fade" id="deleteAllModal" tabindex="-1" aria-labelledby="deleteAllModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -200,7 +213,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ¿Estás seguro de que quieres eliminar todos los productos?
+                ¿Estás seguro de que quieres eliminar todos los clientes?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -209,43 +222,45 @@
         </div>
     </div>
 </div>
-<!--Logica para el modal delete producto individual-->
+
+<!--Logica para el modal delete cliente individual-->
 <script>
     const deleteModal = document.getElementById('deleteModal');
     const deleteLink = document.getElementById('deleteLink');
-    let productId; // Declaramos la variable fuera para que tenga un alcance más amplio
+    let clienteId;
 
     deleteModal.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
-        productId = button.getAttribute('data-id'); // Capturamos el ID del producto
+        clienteId = button.getAttribute('data-id');
     });
 
     deleteLink.addEventListener('click', function(e) {
         e.preventDefault();
-        fetch(`/products/${productId}/delete`, {
+        fetch(`/clients/${clienteId}/delete`, {
             method: 'DELETE',
         }).then(response => {
             if (response.ok) {
-                window.location.reload(); // Recarga la página si la eliminación fue exitosa
+                window.location.reload();
             } else {
-                console.error('Error al eliminar el producto');
+                console.error('Error al eliminar el cliente');
             }
         }).catch(error => console.error('Error:', error));
     });
 </script>
+
 <!--Logica para el modal deleteAll -->
 <script>
     const deleteAllLink = document.getElementById('deleteAllLink');
 
     deleteAllLink.addEventListener('click', function(e) {
         e.preventDefault();
-        fetch('/products/deleteAll', {
+        fetch('/clients/deleteAll', {
             method: 'DELETE',
         }).then(response => {
             if (response.ok) {
                 window.location.reload();
             } else {
-                console.error('Error al eliminar todos los productos');
+                console.error('Error al eliminar todos los clientes');
             }
         }).catch(error => console.error('Error:', error));
     });

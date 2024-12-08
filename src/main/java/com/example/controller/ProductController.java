@@ -24,7 +24,7 @@ public class ProductController {
     public String findAll(Model model) {
         List<Product> products = this.repository.findAll();
         model.addAttribute("products", products);
-        return "product-list";
+        return "productos/product-list";
     }
     /*
     GET http://localhost:8080/products/new
@@ -32,7 +32,7 @@ public class ProductController {
     @GetMapping("/new")
     public String getForm(Model model){
         model.addAttribute("product", new Product());
-        return "product-form";
+        return "productos/product-form";
     }
 
     /*
@@ -47,13 +47,13 @@ public class ProductController {
     public String verProducto(@PathVariable Long id, Model model) {
         Product product = this.repository.findById(id).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
         model.addAttribute("product", product);
-        return "product-view";
+        return "productos/product-view";
     }
     @GetMapping("/{id}/edit")
     public String editarProducto(@PathVariable Long id, Model model) {
         Product product = this.repository.findById(id).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
         model.addAttribute("product", product);
-        return "product-edit";
+        return "productos/product-edit";
     }
     @PostMapping("/{id}/edit")
     public String saveFromEdit(@ModelAttribute("product") Product product){
