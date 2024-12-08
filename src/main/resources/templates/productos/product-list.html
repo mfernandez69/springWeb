@@ -139,7 +139,6 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">ID</th>
                         <th scope="col">Título</th>
                         <th scope="col">Precio</th>
                         <th scope="col">Cantidad</th>
@@ -149,7 +148,6 @@
                     <tbody>
                     <!-- Generamos tantas filas en la tabla como productos en la lista que pasemos -->
                     <tr th:each="product : ${products}">
-                        <th scope="row" th:text="${product.id}"></th>
                         <td th:text="${product.title}"></td>
                         <td th:text="${product.price + ' €'}"></td>
                         <td th:text="${product.quantity}"></td>

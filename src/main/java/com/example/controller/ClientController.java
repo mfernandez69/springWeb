@@ -36,13 +36,13 @@ public class ClientController {
         return "redirect:/clients";
     }
     @GetMapping("/{id}/view")
-    public String verCliente(@PathVariable Long id, Model model) {
+    public String verCliente(@PathVariable String id, Model model) {
         Client cliente = this.repository.findById(id).orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
         model.addAttribute("cliente", cliente);
         return "clientes/client-view";
     }
     @GetMapping("/{id}/edit")
-    public String editarCliente(@PathVariable Long id, Model model) {
+    public String editarCliente(@PathVariable String id, Model model) {
         Client cliente = this.repository.findById(id).orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
         model.addAttribute("cliente", cliente);
         return "clientes/client-edit";
@@ -53,7 +53,7 @@ public class ClientController {
         return "redirect:/clients";
     }
     @DeleteMapping("/{id}/delete")
-    public ResponseEntity<Void> deleteCliente(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCliente(@PathVariable String id) {
         this.repository.deleteById(id);
         return ResponseEntity.noContent().build();
     }

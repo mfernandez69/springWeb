@@ -44,13 +44,13 @@ public class ProductController {
         return "redirect:/products";
     }
     @GetMapping("/{id}/view")
-    public String verProducto(@PathVariable Long id, Model model) {
+    public String verProducto(@PathVariable String id, Model model) {
         Product product = this.repository.findById(id).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
         model.addAttribute("product", product);
         return "productos/product-view";
     }
     @GetMapping("/{id}/edit")
-    public String editarProducto(@PathVariable Long id, Model model) {
+    public String editarProducto(@PathVariable String id, Model model) {
         Product product = this.repository.findById(id).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
         model.addAttribute("product", product);
         return "productos/product-edit";
@@ -62,7 +62,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}/delete")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable String id) {
         this.repository.deleteById(id);
         return ResponseEntity.noContent().build();
     }

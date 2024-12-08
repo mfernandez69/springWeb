@@ -11,8 +11,7 @@ import java.time.LocalDate;
 @Entity
 public class Client {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     private String nombre;
     private String dni;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -22,7 +21,7 @@ public class Client {
     public Client() {
     }
 
-    public Client(Long id, String nombre, String dni, LocalDate fechaNacimiento, String sexo) {
+    public Client(String id, String nombre, String dni, LocalDate fechaNacimiento, String sexo) {
         this.id = id;
         this.nombre = nombre;
         this.dni = dni;
@@ -30,11 +29,11 @@ public class Client {
         this.sexo = sexo;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
