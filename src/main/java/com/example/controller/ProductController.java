@@ -66,4 +66,9 @@ public class ProductController {
         this.repository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+    @DeleteMapping("/deleteAll")
+    public ResponseEntity<Void> deleteAllProducts() {
+        this.repository.deleteAll();
+        return ResponseEntity.noContent().build();
+    }
 }
