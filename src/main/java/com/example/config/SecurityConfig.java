@@ -25,7 +25,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-
+                .userDetailsService(userDetailsService)
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/login").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/products/**", "/clients/**").authenticated()
@@ -39,6 +39,8 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login")
                 )
+                //Especificamos que se guarden token en cookies accesibles desde el lado del cliente
+                //Esto permite después al JS obtenerlo y asegurar que es legítimo para ejecutarse
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 );
@@ -51,6 +53,13 @@ public class SecurityConfig {
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
+    public static void main(String[] args) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String password = "1234";
+        String hashedPassword = encoder.encode(password);
+        System.out.println("Hash de la contraseña '" + password + "': " + hashedPassword);
+    }
+
 }

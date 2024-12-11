@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Listado de productos</title>
+    <!--  Usamos tokens para pasárselos al JS y que se autentique  -->
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
@@ -229,7 +230,7 @@
         e.preventDefault();
         const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
         const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
-
+        //Hacemos la petición incluyendo los tokens
         fetch(`/products/${productId}/delete`, {
             method: 'DELETE',
             headers: {
